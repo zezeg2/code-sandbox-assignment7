@@ -20,6 +20,8 @@ import {
   CreateEpisodeOutput,
 } from './dtos/create-episode.dto';
 import { UpdateEpisodeInput } from './dtos/update-episode.dto';
+import { Role } from "../auth/auth.role.decorator";
+import { UserRole } from "../users/entities/user.entity";
 
 @Resolver(of => Podcast)
 export class PodcastsResolver {
@@ -30,6 +32,7 @@ export class PodcastsResolver {
     return this.podcastsService.getAllPodcasts();
   }
 
+  @Role(UserRole.Host)
   @Mutation(returns => CreatePodcastOutput)
   createPodcast(
     @Args('input') createPodcastInput: CreatePodcastInput,
@@ -43,14 +46,16 @@ export class PodcastsResolver {
   ): Promise<PodcastOutput> {
     return this.podcastsService.getPodcast(podcastSearchInput.id);
   }
-
+  
+  @Role(UserRole.Host)
   @Mutation(returns => CoreOutput)
   deletePodcast(
     @Args('input') podcastSearchInput: PodcastSearchInput,
   ): Promise<CoreOutput> {
     return this.podcastsService.deletePodcast(podcastSearchInput.id);
   }
-
+  
+  @Role(UserRole.Host)
   @Mutation(returns => CoreOutput)
   updatePodcast(
     @Args('input') updatePodcastInput: UpdatePodcastInput,
@@ -69,21 +74,24 @@ export class EpisodeResolver {
   ): Promise<EpisodesOutput> {
     return this.podcastService.getEpisodes(podcastSearchInput.id);
   }
-
+  
+  @Role(UserRole.Host)
   @Mutation(returns => CreateEpisodeOutput)
   createEpisode(
     @Args('input') createEpisodeInput: CreateEpisodeInput,
   ): Promise<CreateEpisodeOutput> {
     return this.podcastService.createEpisode(createEpisodeInput);
   }
-
+  
+  @Role(UserRole.Host)
   @Mutation(returns => CoreOutput)
   updateEpisode(
     @Args('input') updateEpisodeInput: UpdateEpisodeInput,
   ): Promise<CoreOutput> {
     return this.podcastService.updateEpisode(updateEpisodeInput);
   }
-
+  
+  @Role(UserRole.Host)
   @Mutation(returns => CoreOutput)
   deleteEpisode(
     @Args('input') episodesSearchInput: EpisodesSearchInput,

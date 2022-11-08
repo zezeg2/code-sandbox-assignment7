@@ -11,18 +11,19 @@ import { AuthUser } from '../auth/auth-user.decorator';
 import { AuthGuard } from '../auth/auth.guard';
 import { UserProfileInput, UserProfileOutput } from './dtos/user-profile.dto';
 import { EditProfileInput, EditProfileOutput } from './dtos/edit-profile.dto';
+import { Role } from "../auth/auth.role.decorator";
 
 @Resolver(of => User)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
-
+  
   @Mutation(returns => CreateAccountOutput)
   createAccount(
     @Args('input') createAccountInput: CreateAccountInput,
   ): Promise<CreateAccountOutput> {
     return this.usersService.createAccount(createAccountInput);
   }
-
+  
   @Mutation(returns => LoginOutput)
   login(@Args('input') loginInpt: LoginInput): Promise<LoginOutput> {
     return this.usersService.login(loginInpt);
